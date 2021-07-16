@@ -9,6 +9,9 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import com.redmadrobot.inputmask.MaskedTextChangedListener
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,8 +19,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val editText: EditText = findViewById(R.id.editText)
+        val editText: EditText = findViewById(R.id.edit_text)
         val text: TextView = findViewById(R.id.text)
+        val inputText: TextInputEditText = findViewById(R.id.inputText)
+        val inputTextLayout: TextInputLayout = findViewById(R.id.textInputLayout)
 
 
         // TODO: 16.07.2021 27.4
@@ -35,6 +40,12 @@ class MainActivity : AppCompatActivity() {
         val inputFilter3 = InputFilter.LengthFilter(5)
 
         editText.filters = arrayOf(inputFilter2)
+
+        // TODO: 16.07.2021 Input Mask https://github.com/RedMadRobot/input-mask-android
+        val inputMask = MaskedTextChangedListener("+7 ([000]) [000]-[00]-[00]", inputText)
+        inputText.addTextChangedListener(inputMask)
+        inputTextLayout.onFocusChangeListener = inputMask
+
 
         // TODO: 16.07.2021 27.3 imeOptions
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
@@ -88,6 +99,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         editText.addTextChangedListener(textWatcher)
+        //editText.addTextChangedListener(inputMask)
+        //editText.onFocusChangeListener = inputMask
 
     }
 }

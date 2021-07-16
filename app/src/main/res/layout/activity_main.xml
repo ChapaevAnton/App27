@@ -8,12 +8,13 @@
 
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/edit_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="300dp"
         android:hint="введите пароль"
-        android:inputType="text"
+        android:inputType="number"
+        android:digits="123456789+-() "
         android:textColorHighlight="@android:color/holo_green_dark"
         android:textColorHint="@android:color/holo_red_dark"
         android:textColorLink="@android:color/holo_blue_dark"
@@ -38,10 +39,12 @@
         app:counterMaxLength="20">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputText"
+            android:digits="123456789-+() "
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="введите текст"
-            android:inputType="text"/>
+            android:inputType="number"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
