@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.App27">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,14 +19,16 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".custom_ui.CustomKeyboard"
+        <service
+            android:name=".custom_ui.CustomKeyboard"
             android:permission="android.permission.BIND_INPUT_METHOD">
             <intent-filter>
-                <action android:name="android.view.InputMethod"/>
+                <action android:name="android.view.InputMethod" />
             </intent-filter>
 
-            <meta-data android:name="android.view.im"
-                android:resource="@xml/input_method_keyboard"/>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/input_method_keyboard" />
         </service>
 
     </application>
