@@ -13,8 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="300dp"
         android:hint="введите пароль"
-        android:inputType="number"
-        android:digits="123456789+-() "
+        android:inputType="text"
         android:textColorHighlight="@android:color/holo_green_dark"
         android:textColorHint="@android:color/holo_red_dark"
         android:textColorLink="@android:color/holo_blue_dark"
@@ -40,7 +39,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputText"
-            android:digits="123456789-+() "
+            android:digits="1234567890-+() "
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="введите текст"
