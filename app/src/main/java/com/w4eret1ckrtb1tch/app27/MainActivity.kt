@@ -1,31 +1,58 @@
 package com.w4eret1ckrtb1tch.app27
 
+import android.database.Cursor
+import android.database.MatrixCursor
+import android.graphics.Color
 import android.os.Bundle
+import android.provider.BaseColumns
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
+import android.view.Menu
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.cursoradapter.widget.SimpleCursorAdapter
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 
 class MainActivity : AppCompatActivity() {
 
+    private val listItems = mutableListOf<String>().apply {
+        for (i in 0..10) {
+            add("item$i")
+        }
+    }
+    private lateinit var text: TextView
+
+    private lateinit var mAdapter: SimpleCursorAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val editText: EditText = findViewById(R.id.edit_text)
-        val text: TextView = findViewById(R.id.text)
+        text = findViewById(R.id.text)
         val inputText: TextInputEditText = findViewById(R.id.inputText)
         val inputTextLayout: TextInputLayout = findViewById(R.id.textInputLayout)
 
 
-        // TODO: 16.07.2021 27.4
+        // TODO: 17.07.2021 27.5. Toolbar SearchView
+        val from = arrayOf("items")
+        val to = intArrayOf(R.id.search_item)
+        mAdapter = SimpleCursorAdapter(
+            this,
+            R.layout.search_item,
+            null,
+            from,
+            to,
+            CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
+        )
+
+        // TODO: 16.07.2021 27.4 InputFilter
         val inputFilter = InputFilter { source, start, end, spanned, dStart, dEnd ->
             if (source.length <= 10) return@InputFilter source
             spanned.toString()
@@ -103,4 +130,75 @@ class MainActivity : AppCompatActivity() {
         //editText.onFocusChangeListener = inputMask
 
     }
+
+
+    // TODO: 17.07.2021 27.5. Toolbar SearchView
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.search_menu, menu)
+        val itemMenu = menu?.findItem(R.id.search_bar)
+        val searchView = itemMenu?.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                //по нажатию на кнопку поиск
+                if (listItems.contains(query)) {
+                    text.text = "true"
+                    text.setTextColor(Color.GREEN)
+                } else {
+                    text.text = "false"
+                    text.setTextColor(Color.RED)
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                //по мере заполнения
+//                if (listItems.contains(newText)) {
+//                    text.text = "true"
+//                    text.setTextColor(Color.GREEN)
+//                } else {
+//                    text.text = "false"
+//                    text.setTextColor(Color.RED)
+//                }
+                newText?.let { populateAdapter(it) }
+                return false
+            }
+        })
+
+        searchView.suggestionsAdapter = mAdapter
+
+        searchView.setOnSuggestionListener(object : SearchView.OnSuggestionListener {
+            override fun onSuggestionSelect(position: Int): Boolean {
+                return true
+            }
+
+            override fun onSuggestionClick(position: Int): Boolean {
+                val cursor: Cursor = mAdapter.getItem(position) as Cursor
+                val searchString: String = cursor.getString(cursor.getColumnIndex("items"))
+                searchView.setQuery(searchString, false)
+                searchView.clearFocus()
+                return true
+            }
+
+        })
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun populateAdapter(query: String) {
+        val cursor = MatrixCursor(arrayOf(BaseColumns._ID, "items"))
+        for (i in listItems.indices) {
+            if (listItems[i].lowercase().startsWith(query.lowercase())) {
+                cursor.addRow(
+                    arrayOf(
+                        i,
+                        listItems[i]
+                    )
+                )
+            }
+        }
+        mAdapter.changeCursor(cursor)
+    }
+
+
 }
