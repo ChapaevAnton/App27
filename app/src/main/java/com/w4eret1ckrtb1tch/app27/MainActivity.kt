@@ -1,5 +1,9 @@
 package com.w4eret1ckrtb1tch.app27
 
+import android.content.ClipData
+import android.content.ClipDescription
+import android.content.ClipboardManager
+import android.content.Context
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.graphics.Color
@@ -38,6 +42,28 @@ class MainActivity : AppCompatActivity() {
         text = findViewById(R.id.text)
         val inputText: TextInputEditText = findViewById(R.id.inputText)
         val inputTextLayout: TextInputLayout = findViewById(R.id.textInputLayout)
+        val bufferButton: Button = findViewById(R.id.button_buffer)
+
+        // TODO: 17.07.2021 27.6. ClipboardManager
+        val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipDescription =
+            ClipDescription("label2", arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN))
+
+        bufferButton.setOnClickListener {
+            //version 1
+//            val clipData1 = ClipData.newPlainText("label1",editText.text)
+//            clipboardManager.setPrimaryClip(clipData1)
+
+            //version 2
+            val clipData2 = ClipData(clipDescription, ClipData.Item("text temp 1"))
+            clipData2.addItem(ClipData.Item("text temp 2"))
+            clipboardManager.setPrimaryClip(clipData2)
+            Toast.makeText(
+                this,
+                "${clipData2.getItemAt(0).text} ${clipData2.getItemAt(1).text}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
 
 
         // TODO: 17.07.2021 27.5. Toolbar SearchView

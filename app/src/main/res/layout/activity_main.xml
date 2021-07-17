@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="300dp"
         android:hint="введите пароль"
+        android:imeOptions="actionSearch"
         android:inputType="text"
         android:textColorHighlight="@android:color/holo_green_dark"
         android:textColorHint="@android:color/holo_red_dark"
@@ -21,8 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:imeOptions="actionSearch"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
@@ -30,20 +30,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:counterEnabled="true"
-        app:counterMaxLength="20">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputText"
-            android:digits="1234567890-+() "
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:digits="1234567890-+() "
             android:hint="введите текст"
-            android:inputType="number"/>
+            android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,6 +57,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="text" />
+
+    <Button
+        android:id="@+id/button_buffer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:text="to buffer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
